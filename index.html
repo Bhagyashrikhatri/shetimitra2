@@ -24,20 +24,20 @@
       <h1><b>🌱 Shetimitra Us Ropvatika</b></h1>
       <p>High-quality plants delivered to your home!</p>
 
-      <!-- Order Form -->
       <form id="orderForm" style="margin-top:15px;">
-        <input type="text" id="name" placeholder="Enter Your Name" required><br><br>
+  <input type="text" id="name" placeholder="Enter Your Name / आपले नाव टाका" required><br><br>
 
-        <!-- Dropdown for Plant Name -->
-        <select id="product" required>
-          <option value="" disabled selected>-- Select Plant Name --</option>
-          <option value="Co 10001 Sugarcan">Co 10001 Sugarcan</option>
-          <option value="Co 86032">Co 86032</option>
-        </select><br><br>
+  <label for="product">🌱 Select Plant / रोप निवडा:</label><br>
+  <select id="product" required>
+    <option value="">-- Select Plant / रोप निवडा --</option>
+    <option value="Co 10001 Sugarcane">Co 10001 Us / Co 10001 Sugarcane</option>
+    <option value="Co 86032 Sugarcane">Co 86032 Us / Co 86032 Sugarcane</option>
+  </select>
+  <br><br>
 
-        <input type="number" id="qty" placeholder="Enter Quantity" required><br><br>
-        <button type="submit">📩 Place Order</button>
-      </form>
+  <input type="number" id="qty" placeholder="Enter Quantity / संख्या टाका" required><br><br>
+  <button type="submit">📩 Place Order / ऑर्डर करा</button>
+</form>
 
       <!-- Order Message -->
       <p id="orderMsg" style="font-weight:bold; color:green; margin-top:10px;"></p>
@@ -138,3 +138,4 @@
   </script>
 </body>
 </html>
+
