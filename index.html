@@ -27,21 +27,17 @@
       <!-- Order Form -->
       <form id="orderForm" style="margin-top:15px;">
         <input type="text" id="name" placeholder="Enter Your Name" required><br><br>
-        <input type="text" id="product" placeholder="Enter Plant Name" required><br><br>
+
+        <!-- Dropdown for Plant Name -->
+        <select id="product" required>
+          <option value="" disabled selected>-- Select Plant Name --</option>
+          <option value="Co 10001 Sugarcan">Co 10001 Sugarcan</option>
+          <option value="Co 86032">Co 86032</option>
+        </select><br><br>
+
         <input type="number" id="qty" placeholder="Enter Quantity" required><br><br>
         <button type="submit">📩 Place Order</button>
       </form>
-
-      <!-- WhatsApp buttons (kept as they are) -->
-      <a class="btn" target="_blank" 
-         href="https://wa.me/919022330208?text=Hello,%20I%20want%20to%20order%20plants.">
-         ✅ Order on WhatsApp
-      </a>
-
-      <a class="btn" target="_blank" 
-         href="https://wa.me/919022330208?text=नमस्कार,%20मला%20आजच%20रोपांची%20बुकिंग%20करायची%20आहे.">
-         📲 WhatsApp वर आजच बुकिंग करा
-      </a>
 
       <!-- Order Message -->
       <p id="orderMsg" style="font-weight:bold; color:green; margin-top:10px;"></p>
@@ -108,16 +104,11 @@
     function saveOrder(customerName, product, quantity) {
       const ordersRef = ref(db, 'orders');
       const newOrderRef = push(ordersRef);
-      set(newOrderRef, {
+      return set(newOrderRef, {
         name: customerName,
         product: product,
         quantity: quantity,
         date: new Date().toLocaleString()
-      }).then(() => {
-        document.getElementById("orderMsg").innerText = "✅ Order saved successfully!";
-        document.getElementById("orderForm").reset();
-      }).catch((error) => {
-        document.getElementById("orderMsg").innerText = "❌ Error: " + error.message;
       });
     }
 
@@ -128,7 +119,21 @@
       const product = document.getElementById("product").value;
       const qty = document.getElementById("qty").value;
 
-      saveOrder(name, product, qty);
+      // Save to Firebase
+      saveOrder(name, product, qty).then(() => {
+        document.getElementById("orderMsg").innerText = "✅ Order saved successfully!";
+
+        // Send to WhatsApp
+        const phoneNumber = "919022330208"; // your number with country code
+        const message = `Hello, I am ${name}. I want to order:\n🌱 Plant: ${product}\n📦 Quantity: ${qty}`;
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+        window.open(whatsappURL, "_blank");
+
+        document.getElementById("orderForm").reset();
+      }).catch((error) => {
+        document.getElementById("orderMsg").innerText = "❌ Error: " + error.message;
+      });
     });
   </script>
 </body>
