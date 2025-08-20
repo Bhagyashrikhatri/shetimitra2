@@ -24,14 +24,21 @@
       <h1><b>🌱 Shetimitra Us Ropvatika</b></h1>
       <p>High-quality plants delivered to your home!</p>
 
-      <!-- WhatsApp Order Button -->
+      <!-- English WhatsApp Order Button -->
       <a class="btn" target="_blank" 
-         href="https://wa.me/919022330208?text=Hello,%20I%20want%20to%20order%20plants.%0Aनमस्कार,%20मला%20रोपांची%20ऑर्डर%20करायची%20आहे." 
-         onclick="showOrderMessage()">
-         Order on WhatsApp
+         href="https://wa.me/919022330208?text=Hello,%20I%20want%20to%20order%20plants." 
+         onclick="showOrderMessage('english')">
+         ✅ Order on WhatsApp
       </a>
 
-      <!-- Order Message Display -->
+      <!-- Marathi WhatsApp Booking Button -->
+      <a class="btn" target="_blank" 
+         href="https://wa.me/919022330208?text=नमस्कार,%20मला%20आजच%20रोपांची%20बुकिंग%20करायची%20आहे." 
+         onclick="showOrderMessage('marathi')">
+         📲 WhatsApp वर आजच बुकिंग करा
+      </a>
+
+      <!-- Order Message -->
       <p id="orderMsg" style="font-weight:bold; color:green; margin-top:10px;"></p>
     </div>
     <div class="hero-img">
@@ -68,13 +75,18 @@
 
   <!-- Floating WhatsApp Button -->
   <a class="whatsapp-float" target="_blank" 
-     href="https://wa.me/919022330208?text=Hello,%20I%20want%20to%20order%20plants.%0Aनमस्कार,%20मला%20रोपांची%20ऑर्डर%20करायची%20आहे.">💬</a>
+     href="https://wa.me/919022330208?text=Hello,%20I%20want%20to%20order%20plants.">💬</a>
 
   <!-- Script -->
   <script>
-    function showOrderMessage() {
-      document.getElementById("orderMsg").innerText = 
-        "✅ New order received today on WhatsApp! | ✅ आज WhatsApp वरून नवीन ऑर्डर मिळाली आहे!";
+    function showOrderMessage(lang) {
+      if (lang === 'english') {
+        document.getElementById("orderMsg").innerText = 
+          "✅ New order received today on WhatsApp!";
+      } else {
+        document.getElementById("orderMsg").innerText = 
+          "✅ आज WhatsApp वरून नवीन बुकिंग मिळाले आहे!";
+      }
     }
   </script>
 </body>
