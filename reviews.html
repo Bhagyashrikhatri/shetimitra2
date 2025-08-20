@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Customer Reviews - Shetimitra Rop Vatika</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="reviews.html">Customer Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="reviews">
+  <h1>Customer Reviews</h1>
+  <section class="reviews">
+  <h1>Customer Reviews</h1>
+  <div class="review-card">
+    <p>“The sugarcane from Shitimira US Rop Vatika is fresh and naturally sweet. 
+      CO 10001 and CO 86032 varieties are simply the best!” - <strong>Rohit S.</strong></p>
+  </div>
+  <div class="review-card">
+    <p>“I love their sugarcane juice! The quality and taste are unmatched. Highly recommended.” - <strong>Pooja K.</strong></p>
+  </div>
+  <div class="review-card">
+    <p>“Reliable, fresh, and high-yielding sugarcane. Perfect for my home and small business needs.” - <strong>Anil P.</strong></p>
+  </div>
+</section>
+
+  <!-- Review Form -->
+  <div class="review-form">
+    <h3>Add Your Review</h3>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <textarea id="message" placeholder="Write your review" required></textarea>
+    <button onclick="addReview()">Submit Review</button>
+  </div>
+
+  <!-- Reviews Container -->
+  <div id="reviews-container">
+    <!-- Reviews will appear here automatically -->
+  </div>
+</section>
+
+<footer>
+  <p>📞 +91 9022330208 | 💬 <a href="https://wa.me/919022330208">WhatsApp</a></p>
+  <p>© 2025 Shetimitra Us Rop Vatika</p>
+  <p>Shubham Patil</p>
+</footer>
+
+<a class="whatsapp-float" target="_blank" href="https://wa.me/919022330208">💬</a>
+
+<script>
+  // Array to store reviews in memory
+  let reviews = [];
+
+  function addReview() {
+    const name = document.getElementById("name").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if(name === "" || message === "") {
+      alert("Please enter your name and review");
+      return;
+    }
+
+    // Create review object
+    const review = {name, message};
+
+    // Add to array
+    reviews.push(review);
+
+    // Clear form
+    document.getElementById("name").value = "";
+    document.getElementById("message").value = "";
+
+    // Render reviews
+    renderReviews();
+  }
+
+  function renderReviews() {
+    const container = document.getElementById("reviews-container");
+    container.innerHTML = "";
+
+    reviews.forEach((review, index) => {
+      const div = document.createElement("div");
+      div.classList.add("review-card");
+      div.innerHTML = `
+        <p>"${review.message}" - <strong>${review.name}</strong></p>
+        <button onclick="deleteReview(${index})">Delete</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function deleteReview(index) {
+    reviews.splice(index, 1);
+    renderReviews();
+  }
+</script>
+</body>
+</html>
