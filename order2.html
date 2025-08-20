@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orders Report - Shetimitra Rop Vatika</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { color: #2E7D32; }
+    button { margin-bottom: 15px; padding: 8px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #4CAF50; color: white; }
+    tr:nth-child(even){background-color: #f2f2f2;}
+    tr:hover { background-color: #ddd; }
+  </style>
+</head>
+<body>
+  <h1>📋 Orders Report</h1>
+  <button id="toggleBtn">Show All Orders</button>
+
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Plant</th>
+        <th>Quantity</th>
+        <th>Date & Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="4">Loading...</td></tr>
+    </tbody>
+  </table>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDyoM4XLVSG5qQcMD0TVwC977JeNQjM7V0",
+      authDomain: "shetimitra-4e30f.firebaseapp.com",
+      databaseURL: "https://shetimitra-4e30f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "shetimitra-4e30f",
+      storageBucket: "shetimitra-4e30f.firebasestorage.app",
+      messagingSenderId: "1096124840974",
+      appId: "1:1096124840974:web:d281dddc49eda9bfe7505f",
+      measurementId: "G-B2233HJCK1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let showAll = false;
+
+    async function loadOrders() {
+      const tableBody = document.querySelector("#ordersTable tbody");
+      tableBody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+
+      const snapshot = await get(child(ref(db), 'orders'));
+      if (snapshot.exists()) {
+        const allOrders = snapshot.val();
+        const today = new Date().toLocaleDateString();
+        let ordersToShow = Object.values(allOrders);
+
+        if (!showAll) {
+          // Filter only today's orders
+          ordersToShow = ordersToShow.filter(order => order.date.startsWith(today));
+        }
+
+        if (ordersToShow.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="4">No orders found.</td></tr>';
+          return;
+        }
+
+        tableBody.innerHTML = '';
+        ordersToShow.forEach(order => {
+          const row = `<tr>
+            <td>${order.name}</td>
+            <td>${order.product}</td>
+            <td>${order.quantity}</td>
+            <td>${order.date}</td>
+          </tr>`;
+          tableBody.innerHTML += row;
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="4">No orders found.</td></tr>';
+      }
+    }
+
+    // Toggle button
+    document.getElementById("toggleBtn").addEventListener("click", () => {
+      showAll = !showAll;
+      document.getElementById("toggleBtn").innerText = showAll ? "Show Today's Orders" : "Show All Orders";
+      loadOrders();
+    });
+
+    // Load orders immediately
+    loadOrders();
+
+    // Auto-refresh every 60 seconds
+    setInterval(loadOrders, 60000);
+  </script>
+</body>
+</html>
